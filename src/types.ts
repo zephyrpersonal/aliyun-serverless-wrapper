@@ -1,5 +1,6 @@
 import { IncomingMessage } from "http"
-import { Response } from "./response";
+import { Response } from "./response"
+import { Context } from "./context"
 
 export interface AliyunHttpRequest extends IncomingMessage {
   headers: any
@@ -60,24 +61,28 @@ export type CreateContextFunction = (
   req: AliyunHttpRequest,
   res: AliyunHttpResponse,
   ctx: AliyunHttpContext
-) => IWrappedContext | Promise<IWrappedContext>
+) => Context | Promise<Context>
 
 export type AliyunHttpHandlerFunction = (
   req: AliyunHttpRequest,
   res: AliyunHttpResponse,
   ctx: AliyunHttpContext
-) => Promise<any> | any
+) => Promise<Context> | Context
 
 export interface IWrappedHttpHandlerReturnValue {
   data: any
 }
 
 export type HttpHandlerToWrap = (
-  ctx: IWrappedContext
-) => IWrappedHttpHandlerReturnValue | Promise<IWrappedHttpHandlerReturnValue>
+  ctx: Context
+) =>
+  | IWrappedHttpHandlerReturnValue
+  | Promise<IWrappedHttpHandlerReturnValue | void>
+  | void
 
 export interface AliyunHttpHandlerFunctionWrapperOptions {
-  timeout: number
+  timeout?: number
+  onError?: (e: Error, ctx: Context) => void
 }
 
 export type AliyunHttpHandlerFunctionWrapper = (

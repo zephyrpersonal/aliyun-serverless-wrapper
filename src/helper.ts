@@ -1,7 +1,9 @@
-import httpMocks from "node-mocks-http"
 import MockReq from "mock-req"
 
 const AUTO_END_METHOD = ["GET", "HEAD", "DELETE"]
+
+export const couldHaveBody = (method: string): boolean =>
+  AUTO_END_METHOD.indexOf(method) < 0
 
 export interface ITestReq {
   method?: string
@@ -13,24 +15,22 @@ export interface ITestReq {
 export const mockRequest = (req?: ITestReq) => {
   req = req || {}
   const method = req.method || "GET"
-  const couldHaveBody = AUTO_END_METHOD.indexOf(method) < 0
+  const body = req.body || {}
+  const haveBody = couldHaveBody(method)
   const request = new MockReq({
     method,
-    url: "/stuff?q=thing",
+    url: "/",
     headers: {
-      ...(couldHaveBody && {
+      ...(haveBody && {
         "Content-type": "application/json",
-        "content-length": Buffer.byteLength(
-          JSON.stringify(req.body),
-          "utf8"
-        )
+        "Content-Length": Buffer.byteLength(JSON.stringify(body), "utf8")
       }),
       ...req.headers
     }
   })
 
-  if (AUTO_END_METHOD.indexOf(method)) {
-    request.write(req.body)
+  if (haveBody) {
+    request.write(body)
     request.end()
   }
 
@@ -42,12 +42,12 @@ export const mockRequest = (req?: ITestReq) => {
 }
 
 export const mockResponse = () => {
-  return Object.assign(httpMocks.createResponse(), {
+  return {
     setStatusCode: (statusCode: number) => {},
     setHeader: (headerKey: string, headerValue: string) => {},
     deleteHeader: (headerKey: string) => {},
     send: (body: Buffer | string | ReadableStream) => {}
-  })
+  }
 }
 
 export const mockContext = () => {

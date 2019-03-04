@@ -6,17 +6,15 @@ import {
   AliyunHttpRequest,
   AliyunHttpContext
 } from "./types"
+import { couldHaveBody } from "./helper"
+import { Request } from "./request"
 
-class Context {
+export class Context {
   public constructor(
-    private readonly originalReq: AliyunHttpRequest,
+    public req: Request,
     public res: Response,
     private readonly originalCtx: AliyunHttpContext
   ) {}
-
-  public get req() {
-    return this.originalReq
-  }
 
   public get credentials() {
     return this.originalCtx.credentials
@@ -27,7 +25,7 @@ class Context {
   }
 
   public get query() {
-    return this.originalReq.queries
+    return this.req.query
   }
 
   public get requestId() {
@@ -46,8 +44,28 @@ class Context {
     return this.originalCtx.region
   }
 
+  public setHeader(field: string, value: string) {
+    this.res.setHeader(field, value)
+  }
+
+  public removeHeader(field: string) {
+    this.res.removeHeader(field)
+  }
+
+  public get header() {
+    return this.res.header
+  }
+
+  public get headers() {
+    return this.header
+  }
+
+  public get status() {
+    return this.res.status
+  }
+
   public set status(code: number) {
-    this.status = code
+    this.res.status = code
   }
 
   public set body(value: any) {
@@ -57,15 +75,22 @@ class Context {
   public get body() {
     return this.res.body
   }
+
+  public finish() {
+    return this.res.finish()
+  }
 }
 
 export const createContext: CreateContextFunction = async (req, res, ctx) => {
   const response = new Response(res)
-  const context = new Context(req, response, ctx)
+  const request = new Request(req)
+  const context = new Context(request, response, ctx)
   try {
-    context.body = await parser(req)
+    if (couldHaveBody(req.method)) {
+      context.req.body = await parser(req)
+    }
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
   return context
 }

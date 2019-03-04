@@ -6,6 +6,11 @@
   "repository": "git@github.com:zephyrpersonal/aliyun-serverless-wrapper.git",
   "author": "zephyrpersonal <zephyr.workmail@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsc --noEmit && jest",
+    "build:watch": "tsc --watch"
+  },
   "devDependencies": {
     "@types/co-body": "^0.0.3",
     "@types/jest": "^24.0.9",
@@ -18,12 +23,10 @@
     "eslint-config-prettier": "^4.1.0",
     "jest": "^24.1.0",
     "mock-req": "^0.2.0",
-    "node-mocks-http": "^1.7.3",
     "ts-jest": "^24.0.0",
     "typescript": "^3.3.3333"
   },
   "dependencies": {
-    "cache-content-type": "^1.0.1",
     "co-body": "^6.0.0",
     "p-timeout": "^2.0.1"
   }
