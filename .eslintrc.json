@@ -4,5 +4,10 @@
     "plugin:@typescript-eslint/recommended",
     "prettier",
     "prettier/@typescript-eslint"
-  ]
+  ],
+  "rules": {
+    "@typescript-eslint/no-parameter-properties": "never",
+    "@typescript-eslint/explicit-function-return-type": "never",
+    "@typescript-eslint/interface-name-prefix": "never"
+  }
 }

@@ -1,4 +1,5 @@
-import { IncomingMessage, ServerResponse } from "http"
+import { IncomingMessage } from "http"
+import { Response } from "./response";
 
 export interface AliyunHttpRequest extends IncomingMessage {
   headers: any
@@ -48,13 +49,10 @@ export interface AliyunHttpContext {
   accountId: string
 }
 
-export interface IWrappedRequest extends AliyunHttpRequest {}
-export interface IWrappedResponse extends AliyunHttpResponse {}
-
 export interface IWrappedContext extends AliyunHttpContext {
-  req: IWrappedRequest
-  res: IWrappedResponse
-  body: null | { [key: string]: any }
+  req: AliyunHttpRequest
+  res: Response
+  body: any
   status: number
 }
 

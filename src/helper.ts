@@ -1,23 +1,43 @@
 import httpMocks from "node-mocks-http"
-import { AliyunHttpRequest } from "../src/types"
+import MockReq from "mock-req"
 
-export const mockRequest = (
-  queries: null | { [key: string]: any },
-  clientIp: null | string
-) => {
-  const request = httpMocks.createRequest({
+const AUTO_END_METHOD = ["GET", "HEAD", "DELETE"]
+
+export interface ITestReq {
+  method?: string
+  query?: { [key: string]: any }
+  body?: any
+  headers?: { [key: string]: string }
+}
+
+export const mockRequest = (req?: ITestReq) => {
+  req = req || {}
+  const method = req.method || "GET"
+  const couldHaveBody = AUTO_END_METHOD.indexOf(method) < 0
+  const request = new MockReq({
+    method,
+    url: "/stuff?q=thing",
     headers: {
-      "content-type": "application/json",
-      "content-length": JSON.stringify({ a: 1 }).length.toString()
-    },
-    method: "POST",
-    url: "/",
-    body: { a: 1 }
+      ...(couldHaveBody && {
+        "Content-type": "application/json",
+        "content-length": Buffer.byteLength(
+          JSON.stringify(req.body),
+          "utf8"
+        )
+      }),
+      ...req.headers
+    }
   })
 
+  if (AUTO_END_METHOD.indexOf(method)) {
+    request.write(req.body)
+    request.end()
+  }
+
   return Object.assign(request, {
-    queries: new Map(Object.entries(queries || {})),
-    clientIp: clientIp || "127.0.0.1"
+    queries: new Map(Object.entries(req.query || {})),
+    clientIp: "127.0.0.1",
+    path: "/"
   })
 }
 

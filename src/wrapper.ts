@@ -10,6 +10,7 @@ export const wrapper: AliyunHttpHandlerFunctionWrapper = (handler, options) => {
     const run = async () => {
       const ctx = await createContext(request, response, context)
       const functionResult = await handler(ctx)
+      console.log(ctx.res.status, ctx.res.body, ctx.res.header)
       return functionResult
     }
     return options.timeout ? pTimeout(run(), options.timeout) : run()

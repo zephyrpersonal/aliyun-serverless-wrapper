@@ -1,71 +1,69 @@
 import parser from "co-body"
+import { Response } from "./response"
 
 import {
   CreateContextFunction,
   AliyunHttpRequest,
-  AliyunHttpResponse,
   AliyunHttpContext
 } from "./types"
 
 class Context {
-  private requestBody: any
-  constructor(
+  public constructor(
     private readonly originalReq: AliyunHttpRequest,
-    private readonly originalRes: AliyunHttpResponse,
+    public res: Response,
     private readonly originalCtx: AliyunHttpContext
   ) {}
 
-  get res() {
-    return this.originalRes
-  }
-
-  get req() {
+  public get req() {
     return this.originalReq
   }
 
-  get credentials() {
+  public get credentials() {
     return this.originalCtx.credentials
   }
 
-  get service() {
+  public get service() {
     return this.originalCtx.service
   }
 
-  get requestId() {
+  public get query() {
+    return this.originalReq.queries
+  }
+
+  public get requestId() {
     return this.originalCtx.requestId
   }
 
-  get accountId() {
+  public get accountId() {
     return this.originalCtx.accountId
   }
 
-  get function() {
+  public get function() {
     return this.originalCtx.function
   }
 
-  get region() {
+  public get region() {
     return this.originalCtx.region
   }
 
-  set status(code: number) {
+  public set status(code: number) {
     this.status = code
   }
 
-  set body(value: any) {
-    console.log(value)
-    this.requestBody = value
+  public set body(value: any) {
+    this.res.body = value
   }
 
-  get body() {
-    return this.requestBody
+  public get body() {
+    return this.res.body
   }
 }
 
 export const createContext: CreateContextFunction = async (req, res, ctx) => {
-  const context = new Context(req, res, ctx)
+  const response = new Response(res)
+  const context = new Context(req, response, ctx)
   try {
     context.body = await parser(req)
-    console.log(2)
   } catch (e) {
     console.log(e)
   }
