@@ -4,3 +4,4 @@ jest.config.js
 tsconfig.json
 src
 __test__
+example
