@@ -1,9 +1,16 @@
 {
   "name": "aliyun-serverless-wrapper",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "wrapper for aliyun serverless",
   "main": "dist/index.js",
-  "repository": "git@github.com:zephyrpersonal/aliyun-serverless-wrapper.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zephyrpersonal/aliyun-serverless-wrapper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zephyrpersonal/aliyun-serverless-wrapper/issues"
+  },
+  "homepage": "https://github.com/zephyrpersonal/aliyun-serverless-wrapper#readme",
   "author": "zephyrpersonal <zephyr.workmail@gmail.com>",
   "license": "MIT",
   "scripts": {

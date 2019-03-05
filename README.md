@@ -6,17 +6,65 @@
 
 By using this wrapper you shall write your handler function in a koa-like way.
 
+Typescript friendly.
+
 ## API
 
 `wrapper(handler: (ctx: WrappedContext, options?: WrapperOptions) => void) => void`
 
 The original `request`, `response`, `context` object will be merged into a more powerful `WrappedContext` object and passed into handler function.
 
-#### IWrapperOptions
+### WrapperOptions
 
 - `timeout:` set a timeout (ms) to limit the time range running handler
 
 - `onError:` you can set a callback like `(err:Error, ctx: WrappedContext) => void` for this field and do some error handler
+
+### WrappedContext
+
+- `req: Request` Request object
+
+- `res: Response` Response object
+
+  also fields inherit from aliyun runtime context
+
+- `credentials: AliyunContextCredentials`
+
+- `service: AliyunContextService`
+
+- `requestId: string`
+
+- `accountId: string`
+
+- `function: AliyunContextFunction`
+
+- `region: string`
+
+  and short hands for ctx.res
+
+- `setHeader(field: string, value: string): void`
+
+- `removeHeader(field: string): void`
+
+- `get header: Headers`
+
+- `get headers: Headers`
+
+- `get status: number`
+
+- `set status(code: number): void`
+
+- `get body: any`
+
+- `set body(value: any): void`
+
+### WrappedContext.Request
+
+see [request.ts](src/request.ts)
+
+### WrappedContext.Response
+
+see [response.ts](src/response.ts)
 
 ## Example
 
@@ -50,7 +98,6 @@ exports.someFunction = wrapper(async (ctx) => {
   "hello world"
 
 */
-
 
 exports.someFunction = wrapper(async (ctx) => {
   ctx.body = "<html><h1>hello wordl</h1></html>"
