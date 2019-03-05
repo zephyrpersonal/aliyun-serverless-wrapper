@@ -1,6 +1,6 @@
 {
   "name": "aliyun-serverless-wrapper",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "wrapper for aliyun serverless",
   "main": "dist/index.js",
   "repository": {
@@ -16,13 +16,17 @@
   "scripts": {
     "build": "tsc",
     "test": "tsc --noEmit && jest",
-    "build:watch": "tsc --watch"
+    "build:watch": "tsc --watch",
+    "build:example": "TS_NODE_PROJECT=\"example/tsconfig.json\" webpack --config example/webpack.config.ts",
+    "run:example": "fun local start"
   },
   "devDependencies": {
+    "@alicloud/fun": "^2.10.2",
     "@types/co-body": "^0.0.3",
     "@types/jest": "^24.0.9",
     "@types/node": "^11.10.4",
     "@types/p-timeout": "^1.2.1",
+    "@types/webpack": "^4.4.25",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "^1.4.2",
     "delay": "^4.1.0",
@@ -30,7 +34,12 @@
     "eslint-config-prettier": "^4.1.0",
     "jest": "^24.1.0",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.3.3333"
+    "ts-loader": "^5.3.3",
+    "ts-node": "^8.0.2",
+    "tsconfig-paths": "^3.8.0",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
   },
   "dependencies": {
     "co-body": "^6.0.0",

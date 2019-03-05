@@ -3,10 +3,12 @@ import { AliyunHttpHandlerFunctionWrapper } from "./types"
 import { createContext } from "./context"
 
 export const wrapper: AliyunHttpHandlerFunctionWrapper = (handler, options) => {
-  options = options || {
-    timeout: null,
-    onError: (e) => console.error(e)
-  }
+  options = options || {}
+  const onError =
+    options.onError ||
+    ((e, ctx) => {
+      ctx.body = { errMessage: e.message }
+    })
   return async (request, response, context) => {
     const run = async () => {
       const ctx = await createContext(request, response, context)
@@ -15,7 +17,7 @@ export const wrapper: AliyunHttpHandlerFunctionWrapper = (handler, options) => {
         ctx.status = ctx.status || 200
       } catch (e) {
         ctx.status = ctx.status >= 400 ? ctx.status : 500
-        options.onError(e, ctx)
+        onError(e, ctx)
       } finally {
         ctx.finish()
       }

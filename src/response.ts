@@ -76,6 +76,6 @@ export class Response {
   }
 
   public finish() {
-    this._res.send(this._body)
+    this._res.send(this._body || '')
   }
 }

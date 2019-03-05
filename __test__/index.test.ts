@@ -52,26 +52,15 @@ it("should return json", async () => {
   expect(headers).toHaveProperty("Content-Type", "application/json")
 })
 
-it("should return file", async () => {
-  const { status, body, headers } = await test(async (ctx) => {
-    ctx.body = new Buffer("hello world")
-  })({
-    method: "POST"
-  })
-  expect(status).toBe(200)
-  expect(body).toBe(new Buffer("hello world").toString("base64"))
-  expect(headers).toHaveProperty("Content-Type", "application/octet-stream")
-})
-
 it("should return error", async () => {
-  const { status, body, headers } = await test(async (ctx) => {
+  const { status, body, headers } = await test(async () => {
     throw new Error("not found")
   })({
     method: "POST"
   })
   expect(status).toBe(500)
-  expect(body).toBe(undefined)
-  expect(headers).toHaveProperty("Content-Type", undefined)
+  expect(body).toBe(JSON.stringify({ errMessage: "not found" }))
+  expect(headers).toHaveProperty("Content-Type", "application/json")
 })
 
 it("should return error with custom statusCode", async () => {

@@ -1,11 +1,7 @@
 import parser from "co-body"
 import { Response } from "./response"
 
-import {
-  CreateContextFunction,
-  AliyunHttpRequest,
-  AliyunHttpContext
-} from "./types"
+import { CreateContextFunction, AliyunHttpContext } from "./types"
 import { couldHaveBody } from "./helper"
 import { Request } from "./request"
 

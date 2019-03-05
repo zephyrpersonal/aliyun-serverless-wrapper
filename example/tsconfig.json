@@ -5,21 +5,13 @@
     "target": "es6",
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "declaration": true,
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",
-    "typeRoots": ["src/types", "node_modules/@types"],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
-      "*": ["node_modules/*", "src/types/*"]
+      "*": ["node_modules/*", "../src/types/*"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "typings",
-    "src/types",
-    "__test__",
-    "example",
-    "dist"
-  ]
+  "exclude": ["node_modules","../src"]
 }

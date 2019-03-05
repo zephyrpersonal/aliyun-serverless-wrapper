@@ -1,0 +1,64 @@
+ROSTemplateFormatVersion: '2015-09-01'
+Transform: 'Aliyun::Serverless-2018-04-03'
+Resources:
+  test:
+    Type: 'Aliyun::Serverless::Service'
+    Properties:
+      # Role: 'acs:ram::xxxxxxx:role/fc-full-access'
+      Description: 'test'
+    helloworld:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.helloworld
+        Runtime: nodejs8
+        CodeUri: './example/dist'
+        Description: 'helloworld'
+        MemorySize: 128
+      Events:
+        http-trigger-1: # trigger name
+          Type: HTTP # trigger type
+          Properties:
+            AuthType: ANONYMOUS
+            Methods: ['GET', 'POST']
+    json:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.helloworldJSON
+        Runtime: nodejs8
+        CodeUri: './example/dist'
+        Description: 'helloworld'
+        MemorySize: 128
+      Events:
+        http-trigger-2: # trigger name
+          Type: HTTP # trigger type
+          Properties:
+            AuthType: ANONYMOUS
+            Methods: ['GET', 'POST']
+    buffer:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.helloworldPic
+        Runtime: nodejs8
+        CodeUri: './example/dist'
+        Description: 'helloworld'
+        MemorySize: 128
+      Events:
+        http-trigger-3: # trigger name
+          Type: HTTP # trigger type
+          Properties:
+            AuthType: ANONYMOUS
+            Methods: ['GET', 'POST']                
+    throwError:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.throwError
+        Runtime: nodejs8
+        CodeUri: './example/dist'
+        Description: 'testerror'
+        MemorySize: 128
+      Events:
+        http-trigger-4: # trigger name
+          Type: HTTP # trigger type
+          Properties:
+            AuthType: ANONYMOUS
+            Methods: ['GET', 'POST']        
