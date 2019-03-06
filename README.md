@@ -1,5 +1,7 @@
 # Aliyun-serverless-wrapper
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b283383048264aca84abcaa8e02e01ac)](https://app.codacy.com/app/zephyrpersonal/aliyun-serverless-wrapper?utm_source=github.com&utm_medium=referral&utm_content=zephyrpersonal/aliyun-serverless-wrapper&utm_campaign=Badge_Grade_Dashboard)
+
 ## This lib only works when using [http-trigger](https://help.aliyun.com/document_detail/74757.html?spm=a2c4g.11186623.6.558.1d555ed64YgYv8#HTTP-trigger-interface)
 
 ## Yet this lib doesn't support multipart form data
