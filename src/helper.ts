@@ -35,7 +35,7 @@ export const mockRequest = (req?: ITestReq) => {
   }
 
   return Object.assign(request, {
-    queries: new Map(Object.entries(req.query || {})),
+    queries: req.query || {},
     clientIp: "127.0.0.1",
     path: "/"
   })

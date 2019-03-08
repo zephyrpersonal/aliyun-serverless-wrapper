@@ -3,7 +3,7 @@ import { AliyunHttpRequest } from "./types"
 export class Request {
   public body: any
 
-  constructor(private readonly _req: AliyunHttpRequest) {}
+  public constructor(private readonly _req: AliyunHttpRequest) {}
 
   public get headers() {
     return this._req.headers

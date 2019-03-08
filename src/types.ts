@@ -5,7 +5,7 @@ import { Context } from "./context"
 export interface AliyunHttpRequest extends IncomingMessage {
   headers: any
   path: string
-  queries: Map<string, string | any[]>
+  queries: { [key: string]: string | any[] }
   method: string
   clientIp: string
   url: string
