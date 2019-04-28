@@ -87,3 +87,13 @@ it("should throw timeout error", async () => {
     TimeoutError
   )
 })
+
+it("should redirect to baidu", async () => {
+  const { status, headers } = await test(async (ctx) => {
+    ctx.redirect("https://baidu.com")
+  })({
+    method: "POST"
+  })
+  expect(status).toBe(301)
+  expect(headers).toHaveProperty("Location", "https://baidu.com")
+})

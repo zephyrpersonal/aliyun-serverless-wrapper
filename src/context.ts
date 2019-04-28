@@ -75,6 +75,11 @@ export class Context {
   public finish() {
     return this.res.finish()
   }
+
+  public redirect(newUrl: string) {
+    this.status = 301
+    this.setHeader("Location", newUrl)
+  }
 }
 
 export const createContext: CreateContextFunction = async (req, res, ctx) => {
