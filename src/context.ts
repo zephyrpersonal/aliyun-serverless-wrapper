@@ -88,6 +88,10 @@ export class Context {
     return this.response.body
   }
 
+  public set(field: string | { [key: string]: string }, value?: string) {
+    return this.response.set(field, value)
+  }
+
   public finish() {
     return this.response.finish()
   }

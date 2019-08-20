@@ -24,10 +24,13 @@ export class Response {
       return
     }
 
+    const hasTypeSet = !!this.header["Content-Type"]
+
     if (!this._hasStatusSet) this.status = 200
 
     if ("string" == typeof value) {
-      this.type = /^\s*</.test(value) ? "text/html" : "text/plain"
+      !hasTypeSet &&
+        (this.type = /^\s*</.test(value) ? "text/html" : "text/plain")
       this._body = value
       return
     }
@@ -64,7 +67,7 @@ export class Response {
   public get header() {
     return this._headers
   }
-  
+
   public removeHeader(field: string) {
     delete this._headers[field]
     this._res.deleteHeader(field)
@@ -76,6 +79,17 @@ export class Response {
   }
 
   public finish() {
-    this._res.send(this._body || '')
+    this._res.send(this._body || "")
+  }
+
+  public set(field: string | { [key: string]: string }, value?: string) {
+    if (typeof field === "string") {
+      this.setHeader(field, value)
+    }
+    if (typeof field === "object") {
+      Object.keys(field).forEach((k) => {
+        this.setHeader(k, field[k])
+      })
+    }
   }
 }
