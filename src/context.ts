@@ -7,10 +7,18 @@ import { Request } from "./request"
 
 export class Context {
   public constructor(
-    public req: Request,
-    public res: Response,
+    public request: Request,
+    public response: Response,
     private readonly originalCtx: AliyunHttpContext
   ) {}
+
+  public get req() {
+    return this.request
+  }
+
+  public get res() {
+    return this.response
+  }
 
   public get credentials() {
     return this.originalCtx.credentials
@@ -21,7 +29,15 @@ export class Context {
   }
 
   public get query() {
-    return this.req.query
+    return this.request.query
+  }
+
+  public get ip() {
+    return this.request.ip
+  }
+
+  public get method() {
+    return this.request.method
   }
 
   public get requestId() {
@@ -41,15 +57,15 @@ export class Context {
   }
 
   public setHeader(field: string, value: string) {
-    this.res.setHeader(field, value)
+    this.response.setHeader(field, value)
   }
 
   public removeHeader(field: string) {
-    this.res.removeHeader(field)
+    this.response.removeHeader(field)
   }
 
   public get header() {
-    return this.res.header
+    return this.response.header
   }
 
   public get headers() {
@@ -57,23 +73,23 @@ export class Context {
   }
 
   public get status() {
-    return this.res.status
+    return this.response.status
   }
 
   public set status(code: number) {
-    this.res.status = code
+    this.response.status = code
   }
 
   public set body(value: any) {
-    this.res.body = value
+    this.response.body = value
   }
 
   public get body() {
-    return this.res.body
+    return this.response.body
   }
 
   public finish() {
-    return this.res.finish()
+    return this.response.finish()
   }
 
   public redirect(newUrl: string) {
@@ -88,7 +104,7 @@ export const createContext: CreateContextFunction = async (req, res, ctx) => {
   const context = new Context(request, response, ctx)
   try {
     if (couldHaveBody(req.method)) {
-      context.req.body = await parser(req)
+      context.request.body = await parser(req)
     }
   } catch (e) {
     console.error(e)

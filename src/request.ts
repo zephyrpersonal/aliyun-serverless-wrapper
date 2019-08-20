@@ -20,4 +20,12 @@ export class Request {
   public get url() {
     return this._req.url
   }
+
+  public get method() {
+    return this._req.method
+  }
+
+  public get ip() {
+    return this._req.clientIp
+  }
 }
