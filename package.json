@@ -1,6 +1,6 @@
 {
   "name": "aliyun-serverless-wrapper",
-  "version": "1.0.10",
+  "version": "2.0.0",
   "description": "wrapper for aliyun serverless",
   "main": "dist/index.js",
   "repository": {
