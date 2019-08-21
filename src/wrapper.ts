@@ -1,5 +1,9 @@
 import pTimeout from "p-timeout"
-import { AliyunHttpHandlerFunctionWrapper } from "./types"
+import {
+  AliyunHttpHandlerFunctionWrapper,
+  AliyunHttpHandlerFunction,
+  HttpHandlerToWrap
+} from "./types"
 import { createContext } from "./context"
 
 export const wrapper: AliyunHttpHandlerFunctionWrapper = (handler, options) => {
@@ -9,7 +13,9 @@ export const wrapper: AliyunHttpHandlerFunctionWrapper = (handler, options) => {
     ((e, ctx) => {
       ctx.body = { errMessage: e.message }
     })
-  return async (request, response, context) => {
+  const wrappedHandler: AliyunHttpHandlerFunction & {
+    __raw__: HttpHandlerToWrap
+  } = async (request, response, context) => {
     const run = async () => {
       const ctx = await createContext(request, response, context)
       try {
@@ -25,4 +31,7 @@ export const wrapper: AliyunHttpHandlerFunctionWrapper = (handler, options) => {
     }
     return options.timeout ? pTimeout(run(), options.timeout) : run()
   }
+
+  wrappedHandler.__raw__ = handler
+  return wrappedHandler
 }

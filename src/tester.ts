@@ -1,14 +1,8 @@
-import {
-  HttpHandlerToWrap,
-  AliyunHttpHandlerFunctionWrapperOptions
-} from "./types"
-import { wrapper } from "./wrapper"
+import { AliyunHttpHandlerFunction } from "./types"
 import { mockRequest, mockResponse, mockContext, ITestReq } from "./helper"
 
-export const test = (
-  handler: HttpHandlerToWrap,
-  options?: AliyunHttpHandlerFunctionWrapperOptions
-) => async (args?: ITestReq) => {
-  const wrapped = wrapper(handler, options)
-  return wrapped(mockRequest(args), mockResponse(), mockContext())
+export const test = (wrappedHandler: AliyunHttpHandlerFunction) => async (
+  args?: ITestReq
+) => {
+  return wrappedHandler(mockRequest(args), mockResponse(), mockContext())
 }
